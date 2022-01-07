@@ -10,21 +10,35 @@ use yii\filters\VerbFilter;
 use yii\data\Pagination;
 use yii\data\ActiveDataProvider;
 use app\models\Customer;
+use app\models\Opportunity;
 
 class CustomerController extends \yii\web\Controller
 {
-    public function actionIndex()
+    public function actionIndex($id=0)
     {
-        $query = Customer::find()->addOrderBy('customer_id');
+        if($id == 0) {
+            $query = Customer::find()->addOrderBy('customer_id');
 
-        $dataProvider = new ActiveDataProvider([
-            'pagination' => ['pageSize'=>5],
-            'query' => $query,
-        ]);
+            $dataProvider = new ActiveDataProvider([
+                'pagination' => ['pageSize'=>5],
+                'query' => $query,
+            ]);
 
-        return $this->render('index',[
-            'dataProvider' => $dataProvider
-        ]);
+            return $this->render('index',[
+                'dataProvider' => $dataProvider
+            ]);
+        }
+        else {
+            $customer = new Customer;
+            $opportunity = Opportunity::findOne($id);
+            $customer->person_id = $opportunity->person_id;
+            $customer->plan_id = $opportunity->plan_id;
+            $customer->opportunity_id = $id;
+            
+            $customer->save();
+
+            return $this->redirect('index.php?r=customer');
+        }
     }
 
     public function actionUpdate($id)
@@ -34,7 +48,9 @@ class CustomerController extends \yii\web\Controller
 
     public function actionDelete($id)
     {
-        return $this->render('update');
+        $customer = Customer::findOne($id);
+        $customer->delete();
+        return $this->redirect('index.php?r=customer');
     }
 
 }

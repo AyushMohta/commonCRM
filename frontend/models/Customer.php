@@ -30,7 +30,7 @@ class Customer extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['opportunity_id', 'plan_id'], 'integer'],
+            [['opportunity_id', 'plan_id', 'person_id'], 'integer'],
             [['opportunity_id'], 'exist', 'skipOnError' => true, 'targetClass' => Opportunity::className(), 'targetAttribute' => ['opportunity_id' => 'opportunity_id']],
             [['plan_id'], 'exist', 'skipOnError' => true, 'targetClass' => Plan::className(), 'targetAttribute' => ['plan_id' => 'plan_id']],
         ];
@@ -44,7 +44,8 @@ class Customer extends \yii\db\ActiveRecord
         return [
             'customer_id' => 'Customer ID',
             'opportunity_id' => 'Opportunity ID',
-            'plan_id' => 'Plan ID',
+            'plan_id' => 'Plan Name',
+            'person_id' => 'Name',
         ];
     }
 
@@ -66,5 +67,10 @@ class Customer extends \yii\db\ActiveRecord
     public function getPlan()
     {
         return $this->hasOne(Plan::className(), ['plan_id' => 'plan_id']);
+    }
+
+    public function getPerson()
+    {
+        return $this->hasOne(Person::className(), ['person_id' => 'person_id']);
     }
 }

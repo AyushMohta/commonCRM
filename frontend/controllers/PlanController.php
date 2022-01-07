@@ -10,21 +10,30 @@ use yii\filters\VerbFilter;
 use yii\data\Pagination;
 use yii\data\ActiveDataProvider;
 use app\models\Plan;
+use app\models\PlanSearch;
 
 class PlanController extends \yii\web\Controller
 {
     public function actionIndex()
     {
-        $query = Plan::find()->addOrderBy('plan_id');
+        $searchModel = new PlanSearch();
+        $dataProvider = $searchModel->search($this->request->queryParams);
 
-        $dataProvider = new ActiveDataProvider([
-            'pagination' => ['pageSize'=>5],
-            'query' => $query,
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
 
-        return $this->render('index',[
-            'dataProvider' => $dataProvider
-        ]);
+        
+        // $query = Plan::find()->addOrderBy('plan_id');
+        // $dataProvider = new ActiveDataProvider([
+        //     'pagination' => ['pageSize'=>5],
+        //     'query' => $query,
+        // ]);
+
+        // return $this->render('index',[
+        //     'dataProvider' => $dataProvider
+        // ]);
     }
 
     public function actionCreate()

@@ -63,9 +63,7 @@ class OpportunityController extends \yii\web\Controller
     public function actionDelete($id)
     {
         $opportunity = Opportunity::findOne($id);
-        // $person = Person::findOne($opportunity->person_id);
         $opportunity->delete();
-        // $person->delete();
         return $this->redirect('index.php?r=opportunity');
     }
 
@@ -73,6 +71,7 @@ class OpportunityController extends \yii\web\Controller
 
     public function actionUpdate()
     {
+        // Same as lead
         return $this->render('update');
     }
 

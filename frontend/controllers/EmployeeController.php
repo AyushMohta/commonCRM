@@ -11,6 +11,7 @@ use yii\data\Pagination;
 use yii\data\ActiveDataProvider;
 use app\models\Employee;
 use app\models\Person;
+use app\models\EmployeeSearch;
 
 class EmployeeController extends \yii\web\Controller
 {
@@ -35,16 +36,24 @@ class EmployeeController extends \yii\web\Controller
 
     public function actionIndex()
     {
-        $query = Employee::find()->addOrderBy('emp_id');
+        $searchModel = new EmployeeSearch();
+        $dataProvider = $searchModel->search($this->request->queryParams);
 
-        $dataProvider = new ActiveDataProvider([
-            'pagination' => ['pageSize'=>5],
-            'query' => $query,
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
 
-        return $this->render('index',[
-            'dataProvider' => $dataProvider
-        ]);
+        // $query = Employee::find()->addOrderBy('emp_id');
+
+        // $dataProvider = new ActiveDataProvider([
+        //     'pagination' => ['pageSize'=>5],
+        //     'query' => $query,
+        // ]);
+
+        // return $this->render('index',[
+        //     'dataProvider' => $dataProvider
+        // ]);
     }
 
     public function actionUpdate($id)

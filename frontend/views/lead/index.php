@@ -19,7 +19,6 @@ use app\models\Plan;
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
     integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="http://localhost:8012/yii/yiiNewsFeedCRUD/frontend/web/css/style.css">
 </head>
 
 
@@ -44,20 +43,13 @@ use app\models\Plan;
                         'value' => 'person.name'
                     ],
                     [
-                        'label' => 'Gender',
-                        'value' => 'person.gender'
-                    ],
-                    [
-                        'label' => 'Date of birth',
-                        'value' => 'person.date_of_birth'
-                    ],
-                    [
                         'label' => 'Email',
                         'value' => 'person.email'
                     ],
 					'created_at',
 					[
 						'class' => 'yii\grid\ActionColumn',
+                        'template' => '{update} {delete}'
 					],
                     [
                         'label'=>'Convert to Opportunity','format' => 'raw',
